@@ -16,7 +16,7 @@
  * @package    Zend_Translate
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Translate.php 22591 2010-07-16 20:58:05Z thomas $
+ * @version    $Id$
  */
 
 /**

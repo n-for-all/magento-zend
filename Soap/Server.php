@@ -33,7 +33,7 @@
  * @uses       Zend_Server_Interface
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Server.php 22223 2010-05-21 08:06:47Z jan $
+ * @version    $Id$
  */
 class Zend_Soap_Server implements Zend_Server_Interface
 {

@@ -17,7 +17,7 @@
  * @subpackage Zend_InfoCard_Xml_Security
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Security.php 23280 2010-10-31 10:28:58Z ramon $
+ * @version    $Id$
  */
 
 /**

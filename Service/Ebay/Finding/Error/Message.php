@@ -17,7 +17,7 @@
  * @subpackage Ebay
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Message.php 22802 2010-08-07 19:27:37Z ramon $
+ * @version    $Id$
  */
 
 /**

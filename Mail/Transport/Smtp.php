@@ -17,7 +17,7 @@
  * @subpackage Transport
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Smtp.php 23424 2010-11-22 22:42:55Z bittarman $
+ * @version    $Id$
  */
 
 

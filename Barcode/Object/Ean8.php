@@ -17,7 +17,7 @@
  * @subpackage Object
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ean8.php 21667 2010-03-28 17:45:14Z mikaelkael $
+ * @version    $Id$
  */
 
 /**

@@ -28,7 +28,7 @@
  * @package    Zend_Form
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SubForm.php 22328 2010-05-30 15:09:06Z bittarman $
+ * @version    $Id$
  */
 class Zend_Form_SubForm extends Zend_Form
 {

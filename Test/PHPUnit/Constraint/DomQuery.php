@@ -17,7 +17,7 @@
  * @subpackage PHPUnit
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DomQuery.php 22561 2010-07-15 17:49:16Z dragonbe $
+ * @version    $Id$
  */
 
 /** @see PHPUnit_Framework_Constraint */

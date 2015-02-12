@@ -17,7 +17,7 @@
  * @subpackage DeveloperGarden
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SecurityTokenResponse.php 21189 2010-02-24 01:50:33Z stas $
+ * @version    $Id$
  */
 
 /**

@@ -16,7 +16,7 @@
  * @package    Zend_Controller
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Http.php 23414 2010-11-20 10:56:11Z bittarman $
+ * @version    $Id$
  */
 
 /** @see Zend_Controller_Request_Abstract */

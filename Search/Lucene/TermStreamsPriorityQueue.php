@@ -17,7 +17,7 @@
  * @subpackage Index
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TermStreamsPriorityQueue.php 22987 2010-09-21 10:39:53Z alexander $
+ * @version    $Id$
  */
 
 /** Zend_Search_Lucene_Index_TermsStream_Interface */

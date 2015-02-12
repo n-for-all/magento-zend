@@ -29,7 +29,7 @@
  * @subpackage Decorator
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 21146 2010-02-23 14:35:57Z yoshida@zend.co.jp $
+ * @version    $Id$
  */
 abstract class Zend_Form_Decorator_Abstract implements Zend_Form_Decorator_Interface
 {

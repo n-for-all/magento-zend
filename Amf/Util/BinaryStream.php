@@ -17,7 +17,7 @@
  * @subpackage Util
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BinaryStream.php 22101 2010-05-04 20:07:13Z matthew $
+ * @version    $Id$
  */
 
 /**

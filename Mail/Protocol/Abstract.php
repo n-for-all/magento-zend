@@ -18,7 +18,7 @@
  * @subpackage Protocol
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22602 2010-07-16 22:37:31Z freak $
+ * @version    $Id$
  */
 
 
@@ -44,7 +44,7 @@
  * @subpackage Protocol
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22602 2010-07-16 22:37:31Z freak $
+ * @version    $Id$
  * @todo Implement proxy settings
  */
 abstract class Zend_Mail_Protocol_Abstract

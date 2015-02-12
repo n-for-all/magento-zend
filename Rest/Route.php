@@ -16,7 +16,7 @@
  * @package    Zend_Rest
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Route.php 23421 2010-11-21 10:03:53Z wilmoore $
+ * @version    $Id$
  */
 
 /**

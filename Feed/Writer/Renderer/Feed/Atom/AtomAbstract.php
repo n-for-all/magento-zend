@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Writer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AtomAbstract.php 23090 2010-10-12 17:28:16Z padraic $
+ * @version    $Id$
  */
 
 /** @see Zend_Feed_Writer_Feed */

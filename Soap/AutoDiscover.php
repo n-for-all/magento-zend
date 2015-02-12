@@ -17,7 +17,7 @@
  * @subpackage AutoDiscover
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AutoDiscover.php 23338 2010-11-15 14:59:33Z alexander $
+ * @version    $Id$
  */
 
 /**

@@ -17,7 +17,7 @@
  * @subpackage Client
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Client.php 23453 2010-11-28 13:56:14Z ramon $
+ * @version    $Id$
  */
 
 /**

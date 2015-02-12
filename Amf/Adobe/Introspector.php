@@ -16,7 +16,7 @@
  * @package    Zend_Amf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Introspector.php 23316 2010-11-10 16:37:40Z matthew $
+ * @version    $Id$
  */
 
 /** @see Zend_Amf_Parse_TypeLoader */

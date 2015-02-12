@@ -17,7 +17,7 @@
  * @subpackage Parse_Amf0
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Deserializer.php 21209 2010-02-27 10:37:15Z yoshida@zend.co.jp $
+ * @version    $Id$
  */
 
 /** Zend_Amf_Constants */

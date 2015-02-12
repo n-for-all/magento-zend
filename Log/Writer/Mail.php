@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 22971 2010-09-18 20:32:24Z mikaelkael $
+ * @version    $Id$
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -41,7 +41,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 22971 2010-09-18 20:32:24Z mikaelkael $
+ * @version    $Id$
  */
 class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
 {

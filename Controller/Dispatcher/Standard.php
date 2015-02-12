@@ -17,7 +17,7 @@
  * @subpackage Dispatcher
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Standard.php 22038 2010-04-28 18:54:22Z matthew $
+ * @version    $Id$
  */
 
 /** Zend_Loader */

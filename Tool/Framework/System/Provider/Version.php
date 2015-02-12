@@ -16,7 +16,7 @@
  * @package    Zend_Tool
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Version.php 22763 2010-08-02 02:59:36Z ramon $
+ * @version    $Id$
  */
 
 #require_once 'Zend/Tool/Framework/Registry.php';

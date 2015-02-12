@@ -17,7 +17,7 @@
  * @subpackage Wsdl
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ArrayOfTypeComplex.php 21858 2010-04-15 19:58:12Z beberlei $
+ * @version    $Id$
  */
 
 /**

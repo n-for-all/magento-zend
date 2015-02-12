@@ -17,7 +17,7 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ViewControllerScriptsDirectory.php 23343 2010-11-15 15:33:22Z ramon $
+ * @version    $Id$
  */
 
 /**

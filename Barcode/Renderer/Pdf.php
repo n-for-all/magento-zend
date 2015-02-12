@@ -17,7 +17,7 @@
  * @subpackage Renderer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pdf.php 22418 2010-06-11 16:27:22Z mikaelkael $
+ * @version    $Id$
  */
 
 /** @see Zend_Barcode_Renderer_RendererAbstract */

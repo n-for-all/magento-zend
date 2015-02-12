@@ -17,7 +17,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22567 2010-07-16 03:32:31Z ramon $
+ * @version    $Id$
  */
 
 /** Zend_Log_Filter_Priority */
@@ -29,7 +29,7 @@
  * @subpackage Writer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 22567 2010-07-16 03:32:31Z ramon $
+ * @version    $Id$
  */
 abstract class Zend_Log_Writer_Abstract implements Zend_Log_FactoryInterface
 {

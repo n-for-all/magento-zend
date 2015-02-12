@@ -17,7 +17,7 @@
  * @subpackage Storage
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: TableInstance.php 22773 2010-08-03 07:18:27Z maartenba $
+ * @version    $Id$
  */
 
 /**

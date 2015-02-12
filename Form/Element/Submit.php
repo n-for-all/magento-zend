@@ -30,7 +30,7 @@
  * @subpackage Element
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Submit.php 22328 2010-05-30 15:09:06Z bittarman $
+ * @version    $Id$
  */
 class Zend_Form_Element_Submit extends Zend_Form_Element_Xhtml
 {

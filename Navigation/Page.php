@@ -16,7 +16,7 @@
  * @package   Zend_Navigation
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Page.php 22882 2010-08-22 14:00:16Z freak $
+ * @version    $Id$
  */
 
 /**

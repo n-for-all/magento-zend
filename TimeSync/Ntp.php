@@ -16,7 +16,7 @@
  * @package   Zend_TimeSync
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Ntp.php 21480 2010-03-13 22:09:26Z thomas $
+ * @version   $Id$
  */
 
 /**

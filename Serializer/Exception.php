@@ -16,7 +16,7 @@
  * @package    Zend_Serializer
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Exception.php 20574 2010-01-24 17:39:14Z mabe $
+ * @version    $Id$
  */
 
 /** @see Zend_Exception */

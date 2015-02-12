@@ -16,7 +16,7 @@
  * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Proxy.php 22797 2010-08-06 15:02:12Z alexander $
+ * @version    $Id$
  */
 
 /** Zend_Pdf_ElementFactory_Interface */

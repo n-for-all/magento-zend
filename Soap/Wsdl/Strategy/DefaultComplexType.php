@@ -17,7 +17,7 @@
  * @subpackage Wsdl
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DefaultComplexType.php 22674 2010-07-25 19:35:20Z ramon $
+ * @version    $Id$
  */
 
 /**
