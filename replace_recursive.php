@@ -23,7 +23,7 @@ function replace_recursive($dir)
 
         $orig = file_get_contents($file);
 
-        $replaced = preg_replace("/([^#])require_once/", "\$1#require_once", $orig);
+        $replaced = preg_replace("/^(\\s*)require_once([ \\(]['\"])Zend/m", "\$1#require_once\$2Zend", $orig);
 
         if (strpos($file, 'Locale/Math.php')!==false) {
             $replaced = str_replace(
