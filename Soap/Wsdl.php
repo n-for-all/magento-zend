@@ -29,6 +29,9 @@
  */
 #require_once "Zend/Soap/Wsdl/Strategy/Abstract.php";
 
+/** @see Zend_Xml_Security */
+#require_once "Zend/Xml/Security.php";
+
 /**
  * Zend_Soap_Wsdl
  *
@@ -97,12 +100,11 @@ class Zend_Soap_Wsdl
                     xmlns:soap-enc='http://schemas.xmlsoap.org/soap/encoding/'
                     xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'></definitions>";
         $this->_dom = new DOMDocument();
-        if (!$this->_dom->loadXML($wsdl)) {
+        if (!$this->_dom = Zend_Xml_Security::scan($wsdl, $this->_dom)) {
             #require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Unable to create DomDocument');
-        } else {
-            $this->_wsdl = $this->_dom->documentElement;
         }
+        $this->_wsdl = $this->_dom->documentElement;
 
         $this->setComplexTypeStrategy($strategy);
     }
@@ -126,7 +128,7 @@ class Zend_Soap_Wsdl
             $xml = $this->_dom->saveXML();
             $xml = str_replace($oldUri, $uri, $xml);
             $this->_dom = new DOMDocument();
-            $this->_dom->loadXML($xml);
+            $this->_dom = Zend_Xml_Security::scan($xml, $this->_dom);
         }
 
         return $this;
@@ -543,28 +545,24 @@ class Zend_Soap_Wsdl
             case 'string':
             case 'str':
                 return 'xsd:string';
-                break;
+            case 'long':
+                return 'xsd:long';
             case 'int':
             case 'integer':
                 return 'xsd:int';
-                break;
             case 'float':
-            case 'double':
                 return 'xsd:float';
-                break;
+            case 'double':
+                return 'xsd:double';
             case 'boolean':
             case 'bool':
                 return 'xsd:boolean';
-                break;
             case 'array':
                 return 'soap-enc:Array';
-                break;
             case 'object':
                 return 'xsd:struct';
-                break;
             case 'mixed':
                 return 'xsd:anyType';
-                break;
             case 'void':
                 return '';
             default:

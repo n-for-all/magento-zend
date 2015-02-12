@@ -68,7 +68,7 @@
  * @author     Marco Kaiser
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Service_DeveloperGarden_IpLocation 
+class Zend_Service_DeveloperGarden_IpLocation
     extends Zend_Service_DeveloperGarden_Client_ClientAbstract
 {
     /**

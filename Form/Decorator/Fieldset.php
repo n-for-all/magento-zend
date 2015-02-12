@@ -27,6 +27,7 @@
  *
  * Any options passed will be used as HTML attributes of the fieldset tag.
  *
+ *
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
@@ -46,6 +47,7 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
         'helper',
         'method',
         'name',
+        'accept-charset',
     );
 
     /**
@@ -131,7 +133,7 @@ class Zend_Form_Decorator_Fieldset extends Zend_Form_Decorator_Abstract
         $name    = $element->getFullyQualifiedName();
         $id      = (string)$element->getId();
 
-        if (!array_key_exists('id', $attribs) && '' !== $id) {
+        if ((!array_key_exists('id', $attribs) || $attribs['id'] == $id) && '' !== $id) {
             $attribs['id'] = 'fieldset-' . $id;
         }
 

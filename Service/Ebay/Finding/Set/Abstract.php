@@ -17,7 +17,7 @@
  * @subpackage Ebay
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Abstract.php 20166 2010-01-09 19:00:17Z bkarwin $
  */
 
 /**

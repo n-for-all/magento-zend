@@ -88,7 +88,7 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
      */
     public function __construct(array $options = array())
     {
-        while (list($name, $value) = each($options)) {
+        foreach ($options as $name => $value) {
             $this->setOption($name, $value);
         }
         if (!isset($this->_specificOptions['master_files'])) {
@@ -110,7 +110,11 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
         clearstatcache();
         $i = 0;
         foreach ($masterFiles as $masterFile) {
-            $mtime = @filemtime($masterFile);
+            if (file_exists($masterFile)) {
+                $mtime = filemtime($masterFile);
+            } else {
+                $mtime = false;
+            }
 
             if (!$this->_specificOptions['ignore_missing_master_files'] && !$mtime) {
                 Zend_Cache::throwException('Unable to read master_file : ' . $masterFile);
@@ -119,7 +123,7 @@ class Zend_Cache_Frontend_File extends Zend_Cache_Core
             $this->_masterFile_mtimes[$i] = $mtime;
             $this->_specificOptions['master_files'][$i] = $masterFile;
             if ($i === 0) { // to keep a compatibility
-                $this->_specificOptions['master_files'] = $masterFile;
+                $this->_specificOptions['master_file'] = $masterFile;
             }
 
             $i++;

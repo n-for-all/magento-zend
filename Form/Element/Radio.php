@@ -45,7 +45,7 @@ class Zend_Form_Element_Radio extends Zend_Form_Element_Multi
      *
      * Disables "for" attribute of label if label decorator enabled.
      *
-     * @return void
+     * @return Zend_Form_Element_Radio
      */
     public function loadDefaultDecorators()
     {
@@ -53,8 +53,14 @@ class Zend_Form_Element_Radio extends Zend_Form_Element_Multi
             return $this;
         }
         parent::loadDefaultDecorators();
-        $this->addDecorator('Label', array('tag' => 'dt',
-                                           'disableFor' => true));
+
+        // Disable 'for' attribute
+        if (isset($this->_decorators['Label'])
+            && !isset($this->_decorators['Label']['options']['disableFor']))
+        {
+             $this->_decorators['Label']['options']['disableFor'] = true;
+        }
+
         return $this;
     }
 }

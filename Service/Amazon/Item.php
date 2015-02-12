@@ -114,22 +114,22 @@ class Zend_Service_Amazon_Item
      *
      * @param  null|DOMElement $dom
      * @return void
-     * @throws	Zend_Service_Amazon_Exception
-     * 
+     * @throws    Zend_Service_Amazon_Exception
+     *
      * @group ZF-9547
      */
     public function __construct($dom)
     {
-    	if (null === $dom) {
-    		#require_once 'Zend/Service/Amazon/Exception.php';
-    		throw new Zend_Service_Amazon_Exception('Item element is empty');
-    	}
-    	if (!$dom instanceof DOMElement) {
-    		#require_once 'Zend/Service/Amazon/Exception.php';
-    		throw new Zend_Service_Amazon_Exception('Item is not a valid DOM element');
-    	}
+        if (null === $dom) {
+            #require_once 'Zend/Service/Amazon/Exception.php';
+            throw new Zend_Service_Amazon_Exception('Item element is empty');
+        }
+        if (!$dom instanceof DOMElement) {
+            #require_once 'Zend/Service/Amazon/Exception.php';
+            throw new Zend_Service_Amazon_Exception('Item is not a valid DOM element');
+        }
         $xpath = new DOMXPath($dom->ownerDocument);
-        $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2005-10-05');
+        $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
         $this->ASIN = $xpath->query('./az:ASIN/text()', $dom)->item(0)->data;
 
         $result = $xpath->query('./az:DetailPageURL/text()', $dom);

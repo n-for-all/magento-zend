@@ -144,13 +144,14 @@ class Zend_Json_Server_Response
      */
     public function setVersion($version)
     {
-        $version = (string) $version;
-        if ('2.0' == $version) {
+        $version = is_array($version)
+            ? implode(' ', $version)
+            : $version;
+        if ((string)$version == '2.0') {
             $this->_version = '2.0';
         } else {
             $this->_version = null;
         }
-
         return $this;
     }
 
@@ -173,7 +174,6 @@ class Zend_Json_Server_Response
     {
         if ($this->isError()) {
             $response = array(
-                'result' => null,
                 'error'  => $this->getError()->toArray(),
                 'id'     => $this->getId(),
             );
@@ -181,7 +181,6 @@ class Zend_Json_Server_Response
             $response = array(
                 'result' => $this->getResult(),
                 'id'     => $this->getId(),
-                'error'  => null,
             );
         }
 

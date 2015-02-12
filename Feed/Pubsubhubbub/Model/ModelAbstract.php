@@ -23,7 +23,7 @@
 /** @see Zend_Db_Table */
 #require_once 'Zend/Db/Table.php';
 
-/** 
+/**
  * @see Zend_Registry
  * Seems to fix the file not being included by Zend_Db_Table...
  */
@@ -43,13 +43,11 @@ class Zend_Feed_Pubsubhubbub_Model_ModelAbstract
      * @var Zend_Db_Table
      */
     protected $_db = null;
- 
+
     /**
      * Constructor
-     * 
-     * @param  array $data 
-     * @param  Zend_Db_Table_Abstract $tableGateway 
-     * @return void
+     *
+     * @param  Zend_Db_Table_Abstract $tableGateway
      */
     public function __construct(Zend_Db_Table_Abstract $tableGateway = null)
     {

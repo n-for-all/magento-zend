@@ -88,6 +88,7 @@ class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interfac
         if (!empty($namespace)) {
             $namespace .= '_';
         }
+        #require_once 'Zend/Loader/Autoloader.php';
         Zend_Loader_Autoloader::getInstance()->unshiftAutoloader($this, $namespace);
     }
 
@@ -144,7 +145,12 @@ class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interfac
         $namespace         = '';
 
         if (!empty($namespaceTopLevel)) {
-            $namespace = array_shift($segments);
+            $namespace = array();
+            $topLevelSegments = count(explode('_', $namespaceTopLevel));
+            for ($i = 0; $i < $topLevelSegments; $i++) {
+                $namespace[] = array_shift($segments);
+            }
+            $namespace = implode('_', $namespace);
             if ($namespace != $namespaceTopLevel) {
                 // wrong prefix? we're done
                 return false;
@@ -205,6 +211,12 @@ class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interfac
      */
     public function setOptions(array $options)
     {
+        // Set namespace first, see ZF-10836
+        if (isset($options['namespace'])) {
+            $this->setNamespace($options['namespace']);
+            unset($options['namespace']);
+        }
+
         $methods = get_class_methods($this);
         foreach ($options as $key => $value) {
             $method = 'set' . ucfirst($key);

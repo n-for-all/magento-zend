@@ -39,10 +39,4 @@
  */
 class Zend_Gdata_Gbase_ItemFeed extends Zend_Gdata_Feed
 {
-    /**
-     * The classname for individual item feed elements.
-     *
-     * @var string
-     */
-    protected $_entryClassName = 'Zend_Gdata_Gbase_ItemEntry';
 }

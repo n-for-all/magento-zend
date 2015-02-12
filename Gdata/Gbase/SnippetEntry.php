@@ -39,10 +39,4 @@
  */
 class Zend_Gdata_Gbase_SnippetEntry extends Zend_Gdata_Gbase_Entry
 {
-    /**
-     * The classname for individual snippet entry elements.
-     *
-     * @var string
-     */
-    protected $_entryClassName = 'Zend_Gdata_Gbase_SnippetEntry';
 }

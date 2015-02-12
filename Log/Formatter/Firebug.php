@@ -20,8 +20,8 @@
  * @version    $Id$
  */
 
-/** Zend_Log_Formatter_Interface */
-#require_once 'Zend/Log/Formatter/Interface.php';
+/** Zend_Log_Formatter_Abstract */
+#require_once 'Zend/Log/Formatter/Abstract.php';
 
 /**
  * @category   Zend
@@ -30,8 +30,19 @@
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Log_Formatter_Firebug implements Zend_Log_Formatter_Interface
+class Zend_Log_Formatter_Firebug extends Zend_Log_Formatter_Abstract
 {
+    /**
+	 * Factory for Zend_Log_Formatter_Firebug classe
+	 *
+     * @param array|Zend_Config $options useless
+	 * @return Zend_Log_Formatter_Firebug
+     */
+    public static function factory($options)
+    {
+        return new self;
+    }
+
     /**
      * This method formats the event for the firebug writer.
      *

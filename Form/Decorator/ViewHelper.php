@@ -196,7 +196,8 @@ class Zend_Form_Decorator_ViewHelper extends Zend_Form_Decorator_Abstract
             if ($element instanceof $type) {
                 if (stristr($type, 'button')) {
                     $element->content = $element->getLabel();
-                    return null;
+
+                    return $element->getValue();
                 }
                 return $element->getLabel();
             }
@@ -243,7 +244,18 @@ class Zend_Form_Decorator_ViewHelper extends Zend_Form_Decorator_Abstract
             $helperObject->setTranslator($element->getTranslator());
         }
 
-        $elementContent = $view->$helper($name, $value, $attribs, $element->options);
+        // Check list separator
+        if (isset($attribs['listsep'])
+            && in_array($helper, array('formMulticheckbox', 'formRadio', 'formSelect'))
+        ) {
+            $listsep = $attribs['listsep'];
+            unset($attribs['listsep']);
+
+            $elementContent = $view->$helper($name, $value, $attribs, $element->options, $listsep);
+        } else {
+            $elementContent = $view->$helper($name, $value, $attribs, $element->options);
+        }
+
         switch ($this->getPlacement()) {
             case self::APPEND:
                 return $content . $separator . $elementContent;

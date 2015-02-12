@@ -39,6 +39,15 @@ class Zend_Validate_File_ExcludeMimeType extends Zend_Validate_File_MimeType
     const NOT_READABLE = 'fileExcludeMimeTypeNotReadable';
 
     /**
+     * @var array Error message templates
+     */
+    protected $_messageTemplates = array(
+        self::FALSE_TYPE   => "File '%value%' has a false mimetype of '%type%'",
+        self::NOT_DETECTED => "The mimetype of file '%value%' could not be detected",
+        self::NOT_READABLE => "File '%value%' is not readable or does not exist",
+    );
+
+    /**
      * Defined by Zend_Validate_Interface
      *
      * Returns true if the mimetype of the file does not matche the given ones. Also parts
@@ -64,27 +73,10 @@ class Zend_Validate_File_ExcludeMimeType extends Zend_Validate_File_MimeType
             return $this->_throw($file, self::NOT_READABLE);
         }
 
-        $mimefile = $this->getMagicFile();
-        if (class_exists('finfo', false)) {
-            $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
-            if (!empty($mimefile)) {
-                $mime = new finfo($const, $mimefile);
-            } else {
-                $mime = new finfo($const);
-            }
+        $this->_type = $this->_detectMimeType($value);
 
-            if (!empty($mime)) {
-                $this->_type = $mime->file($value);
-            }
-            unset($mime);
-        }
-
-        if (empty($this->_type)) {
-            if (function_exists('mime_content_type') && ini_get('mime_magic.magicfile')) {
-                $this->_type = mime_content_type($value);
-            } elseif ($this->_headerCheck) {
-                $this->_type = $file['type'];
-            }
+        if (empty($this->_type) && $this->_headerCheck) {
+            $this->_type = $file['type'];
         }
 
         if (empty($this->_type)) {

@@ -54,4 +54,28 @@ class Zend_Tool_Project_Context_Zf_TestPHPUnitConfigFile extends Zend_Tool_Proje
         return 'TestPHPUnitConfigFile';
     }
 
+    public function getContents()
+    {
+        return <<<EOS
+<phpunit bootstrap="./bootstrap.php">
+    <testsuite name="Application Test Suite">
+        <directory>./application</directory>
+    </testsuite>
+    <testsuite name="Library Test Suite">
+        <directory>./library</directory>
+    </testsuite>
+
+    <filter>
+        <!-- If Zend Framework is inside your project's library, uncomment this filter -->
+        <!--
+        <whitelist>
+            <directory suffix=".php">../../library/Zend</directory>
+        </whitelist>
+        -->
+    </filter>
+</phpunit>
+
+EOS;
+    }
+
 }

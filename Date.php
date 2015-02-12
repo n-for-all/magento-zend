@@ -121,6 +121,16 @@ class Zend_Date extends Zend_Date_DateObject
     const W3C               = 'WWW';
 
     /**
+     * Minimum allowed year value
+     */
+    const YEAR_MIN_VALUE = -10000;
+
+    /**
+     * Maximum allowed year value
+     */
+    const YEAR_MAX_VALUE = 10000;
+
+    /**
      * Generates the standard date object, could be a unix timestamp, localized date,
      * string, integer, array and so on. Also parts of dates or time are supported
      * Always set the default timezone: http://php.net/date_default_timezone_set
@@ -354,7 +364,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Sets a new timestamp
      *
      * @param  integer|string|array|Zend_Date  $timestamp  Timestamp to set
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setTimestamp($timestamp)
@@ -366,7 +376,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Adds a timestamp
      *
      * @param  integer|string|array|Zend_Date  $timestamp  Timestamp to add
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addTimestamp($timestamp)
@@ -378,7 +388,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Subtracts a timestamp
      *
      * @param  integer|string|array|Zend_Date  $timestamp  Timestamp to sub
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subTimestamp($timestamp)
@@ -1063,7 +1073,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $date    Date or datepart to set
      * @param  string                          $part    OPTIONAL Part of the date to set, if null the timestamp is set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function set($date, $part = null, $locale = null)
@@ -1091,7 +1101,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $date    Date or datepart to add
      * @param  string                          $part    OPTIONAL Part of the date to add, if null the timestamp is added
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function add($date, $part = self::TIMESTAMP, $locale = null)
@@ -1114,7 +1124,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $date    Date or datepart to subtract
      * @param  string                          $part    OPTIONAL Part of the date to sub, if null the timestamp is subtracted
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function sub($date, $part = self::TIMESTAMP, $locale = null)
@@ -1201,14 +1211,14 @@ class Zend_Date extends Zend_Date_DateObject
         }
 
         preg_match('/([+-]\d{2}):{0,1}\d{2}/', $zone, $match);
-        if (!empty($match) and ($match[count($match) - 1] <= 12) and ($match[count($match) - 1] >= -12)) {
+        if (!empty($match) and ($match[count($match) - 1] <= 14) and ($match[count($match) - 1] >= -12)) {
             $zone = "Etc/GMT";
             $zone .= ($match[count($match) - 1] < 0) ? "+" : "-";
             $zone .= (int) abs($match[count($match) - 1]);
             return $zone;
         }
 
-        preg_match('/([[:alpha:]\/]{3,30})(?!.*([[:alpha:]\/]{3,30}))/', $zone, $match);
+        preg_match('/([[:alpha:]\/_]{3,30})(?!.*([[:alpha:]\/]{3,30}))/', $zone, $match);
         try {
             if (!empty($match) and (!is_int($match[count($match) - 1]))) {
                 $oldzone = $this->getTimezone();
@@ -2067,8 +2077,17 @@ class Zend_Date extends Zend_Date_DateObject
                 }
                 // (T)hh:mm:ss
                 preg_match('/[T,\s]{0,1}(\d{2}):(\d{2}):(\d{2})/', $tmpdate, $timematch);
+                // (T)hhmmss
                 if (empty($timematch)) {
                     preg_match('/[T,\s]{0,1}(\d{2})(\d{2})(\d{2})/', $tmpdate, $timematch);
+                }
+                // (T)hh:mm
+                if (empty($timematch)) {
+                    preg_match('/[T,\s]{0,1}(\d{2}):(\d{2})/', $tmpdate, $timematch);
+                }
+                // (T)hhmm
+                if (empty($timematch)) {
+                    preg_match('/[T,\s]{0,1}(\d{2})(\d{2})/', $tmpdate, $timematch);
                 }
                 if (empty($datematch) and empty($timematch)) {
                     #require_once 'Zend/Date/Exception.php';
@@ -2093,6 +2112,9 @@ class Zend_Date extends Zend_Date_DateObject
                     $timematch[2] = 0;
                     $timematch[3] = 0;
                 }
+                if (!isset($timematch[3])) {
+                    $timematch[3] = 0;
+                }
 
                 if (($calc == 'set') || ($calc == 'cmp')) {
                     --$datematch[2];
@@ -2107,7 +2129,10 @@ class Zend_Date extends Zend_Date_DateObject
                 break;
 
             case self::RFC_2822:
-                $result = preg_match('/^\w{3},\s(\d{1,2})\s(\w{3})\s(\d{4})\s(\d{2}):(\d{2}):{0,1}(\d{0,2})\s([+-]{1}\d{4})$/', $date, $match);
+                 $result = preg_match('/^\w{3},\s(\d{1,2})\s(\w{3})\s(\d{4})\s'
+                                    . '(\d{2}):(\d{2}):{0,1}(\d{0,2})\s([+-]'
+                                    . '{1}\d{4}|\w{1,20})$/', $date, $match);
+
                 if (!$result) {
                     #require_once 'Zend/Date/Exception.php';
                     throw new Zend_Date_Exception("no RFC 2822 format ($date)", 0, null, $date);
@@ -2641,10 +2666,8 @@ class Zend_Date extends Zend_Date_DateObject
                                 $parsed['day'] = 0;
                             }
 
-                            if (isset($parsed['year'])) {
-                                $parsed['year'] -= 1970;
-                            } else {
-                                $parsed['year'] = 0;
+                            if (!isset($parsed['year'])) {
+                                $parsed['year'] = 1970;
                             }
                         }
 
@@ -2654,7 +2677,7 @@ class Zend_Date extends Zend_Date_DateObject
                             isset($parsed['second']) ? $parsed['second'] : 0,
                             isset($parsed['month']) ? (1 + $parsed['month']) : 1,
                             isset($parsed['day']) ? (1 + $parsed['day']) : 1,
-                            isset($parsed['year']) ? (1970 + $parsed['year']) : 1970,
+                            $parsed['year'],
                             false), $this->getUnixTimestamp(), false);
                     } catch (Zend_Locale_Exception $e) {
                         if (!is_numeric($date)) {
@@ -2835,7 +2858,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $time    Time to set
      * @param  string                          $format  OPTIONAL Timeformat for parsing input
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setTime($time, $format = null, $locale = null)
@@ -2853,7 +2876,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $time    Time to add
      * @param  string                          $format  OPTIONAL Timeformat for parsing input
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addTime($time, $format = null, $locale = null)
@@ -2871,7 +2894,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $time    Time to sub
      * @param  string                          $format  OPTIONAL Timeformat for parsing input
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid inteface
+     * @return Zend_Date Provides a fluent inteface
      * @throws Zend_Date_Exception
      */
     public function subTime($time, $format = null, $locale = null)
@@ -2997,7 +3020,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $date    Date to set
      * @param  string                          $format  OPTIONAL Date format for parsing
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setDate($date, $format = null, $locale = null)
@@ -3015,7 +3038,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $date    Date to add
      * @param  string                          $format  OPTIONAL Date format for parsing input
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addDate($date, $format = null, $locale = null)
@@ -3034,7 +3057,7 @@ class Zend_Date extends Zend_Date_DateObject
      * @param  string|integer|array|Zend_Date  $date    Date to sub
      * @param  string                          $format  OPTIONAL Date format for parsing input
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subDate($date, $format = null, $locale = null)
@@ -3085,7 +3108,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|Zend_Date  $date    ISO Date to set
      * @param  string|Zend_Locale        $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setIso($date, $locale = null)
@@ -3102,7 +3125,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|Zend_Date  $date    ISO Date to add
      * @param  string|Zend_Locale        $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addIso($date, $locale = null)
@@ -3119,7 +3142,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|Zend_Date  $date    ISO Date to sub
      * @param  string|Zend_Locale        $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subIso($date, $locale = null)
@@ -3172,7 +3195,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|Zend_Date  $date    RFC 822 to set
      * @param  string|Zend_Locale        $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setArpa($date, $locale = null)
@@ -3190,7 +3213,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|Zend_Date  $date    RFC 822 Date to add
      * @param  string|Zend_Locale        $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addArpa($date, $locale = null)
@@ -3208,7 +3231,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|Zend_Date  $date    RFC 822 Date to sub
      * @param  string|Zend_Locale        $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subArpa($date, $locale = null)
@@ -3234,12 +3257,12 @@ class Zend_Date extends Zend_Date_DateObject
         return $this->_calcvalue('cmp', $date, 'arpa', self::RFC_822, $locale);
     }
 
-
     /**
      * Check if location is supported
      *
-     * @param $location array - locations array
-     * @return $horizon float
+     * @param array $location locations array
+     * @throws Zend_Date_Exception
+     * @return float $horizon float
      */
     private function _checkLocation($location)
     {
@@ -3281,7 +3304,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Returns the time of sunrise for this date and a given location as new date object
      * For a list of cities and correct locations use the class Zend_Date_Cities
      *
-     * @param  $location array - location of sunrise
+     * @param array $location location of sunrise
      *                   ['horizon']   -> civil, nautic, astronomical, effective (default)
      *                   ['longitude'] -> longitude of location
      *                   ['latitude']  -> latitude of location
@@ -3301,7 +3324,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Returns the time of sunset for this date and a given location as new date object
      * For a list of cities and correct locations use the class Zend_Date_Cities
      *
-     * @param  $location array - location of sunset
+     * @param array $location location of sunset
      *                   ['horizon']   -> civil, nautic, astronomical, effective (default)
      *                   ['longitude'] -> longitude of location
      *                   ['latitude']  -> latitude of location
@@ -3321,7 +3344,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Returns an array with the sunset and sunrise dates for all horizon types
      * For a list of cities and correct locations use the class Zend_Date_Cities
      *
-     * @param  $location array - location of suninfo
+     * @param array $location location of suninfo
      *                   ['horizon']   -> civil, nautic, astronomical, effective (default)
      *                   ['longitude'] -> longitude of location
      *                   ['latitude']  -> latitude of location
@@ -3357,11 +3380,11 @@ class Zend_Date extends Zend_Date_DateObject
         return $suninfo;
     }
 
-
     /**
      * Check a given year for leap year.
      *
-     * @param  integer|array|Zend_Date  $year  Year to check
+     * @param  integer|array|Zend_Date $year Year to check
+     * @throws Zend_Date_Exception
      * @return boolean
      */
     public static function checkLeapYear($year)
@@ -3457,7 +3480,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string                          $calc    Calculation to make
      * @param  string|integer|array|Zend_Date  $date    Date or Part to calculate
-     * @param  string                          $part    Datepart for Calculation
+     * @param  string                          $type    Datepart for Calculation
      * @param  string|Zend_Locale              $locale  Locale for parsing input
      * @return integer|string  new date
      * @throws Zend_Date_Exception
@@ -3495,11 +3518,13 @@ class Zend_Date extends Zend_Date_DateObject
     /**
      * Internal calculation, returns the requested date type
      *
-     * @param  string                    $calc    Calculation to make
-     * @param  string|integer|Zend_Date  $value   Datevalue to calculate with, if null the actual value is taken
-     * @param  string|Zend_Locale        $locale  Locale for parsing input
-     * @return integer|Zend_Date  new date
+     * @param  string                   $calc   Calculation to make
+     * @param  string|integer|Zend_Date $value  Datevalue to calculate with, if null the actual value is taken
+     * @param  string                   $type
+     * @param  string                   $parameter
+     * @param  string|Zend_Locale       $locale Locale for parsing input
      * @throws Zend_Date_Exception
+     * @return integer|Zend_Date  new date
      */
     private function _calcvalue($calc, $value, $type, $parameter, $locale)
     {
@@ -3555,9 +3580,9 @@ class Zend_Date extends Zend_Date_DateObject
      * use set() instead.
      * Returned is the new date object
      *
-     * @param  string|integer|array|Zend_Date  $date    Year to set
+     * @param  string|integer|array|Zend_Date  $year    Year to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setYear($year, $locale = null)
@@ -3574,9 +3599,9 @@ class Zend_Date extends Zend_Date_DateObject
      * use add() instead.
      * Returned is the new date object
      *
-     * @param  string|integer|array|Zend_Date  $date    Year to add
+     * @param  string|integer|array|Zend_Date  $year    Year to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addYear($year, $locale = null)
@@ -3593,9 +3618,9 @@ class Zend_Date extends Zend_Date_DateObject
      * use sub() instead.
      * Returned is the new date object
      *
-     * @param  string|integer|array|Zend_Date  $date    Year to sub
+     * @param  string|integer|array|Zend_Date  $year    Year to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subYear($year, $locale = null)
@@ -3719,7 +3744,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $month   Month to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setMonth($month, $locale = null)
@@ -3738,7 +3763,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $month   Month to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addMonth($month, $locale = null)
@@ -3757,7 +3782,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $month   Month to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subMonth($month, $locale = null)
@@ -3786,7 +3811,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Returns the day as new date object
      * Example: 20.May.1986 -> 20.Jan.1970 00:00:00
      *
-     * @param $locale  string|Zend_Locale  OPTIONAL Locale for parsing input
+     * @param Zend_Locale $locale OPTIONAL Locale for parsing input
      * @return Zend_Date
      */
     public function getDay($locale = null)
@@ -3794,13 +3819,13 @@ class Zend_Date extends Zend_Date_DateObject
         return $this->copyPart(self::DAY_SHORT, $locale);
     }
 
-
     /**
      * Returns the calculated day
      *
-     * @param $calc    string                    Type of calculation to make
-     * @param $day     string|integer|Zend_Date  Day to calculate, when null the actual day is calculated
-     * @param $locale  string|Zend_Locale        Locale for parsing input
+     * @param string      $calc   Type of calculation to make
+     * @param Zend_Date   $day    Day to calculate, when null the actual day is calculated
+     * @param Zend_Locale $locale Locale for parsing input
+     * @throws Zend_Date_Exception
      * @return Zend_Date|integer
      */
     private function _day($calc, $day, $locale)
@@ -3861,9 +3886,9 @@ class Zend_Date extends Zend_Date_DateObject
      * Returned is the new date object
      * Example: setDay('Montag', 'de_AT'); will set the monday of this week as day.
      *
-     * @param  string|integer|array|Zend_Date  $month   Day to set
+     * @param  string|integer|array|Zend_Date  $day     Day to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setDay($day, $locale = null)
@@ -3879,9 +3904,9 @@ class Zend_Date extends Zend_Date_DateObject
      * If a localized dayname is given it will be parsed with the default locale or the optional
      * set locale.
      *
-     * @param  string|integer|array|Zend_Date  $month   Day to add
+     * @param  string|integer|array|Zend_Date  $day     Day to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addDay($day, $locale = null)
@@ -3897,9 +3922,9 @@ class Zend_Date extends Zend_Date_DateObject
      * If a localized dayname is given it will be parsed with the default locale or the optional
      * set locale.
      *
-     * @param  string|integer|array|Zend_Date  $month   Day to sub
+     * @param  string|integer|array|Zend_Date  $day     Day to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subDay($day, $locale = null)
@@ -3929,7 +3954,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Weekday is always from 1-7
      * Example: 09-Jan-2007 -> 2 = Tuesday -> 02-Jan-1970 (when 02.01.1970 is also Tuesday)
      *
-     * @param $locale  string|Zend_Locale  OPTIONAL Locale for parsing input
+     * @param Zend_Locale $locale OPTIONAL Locale for parsing input
      * @return Zend_Date
      */
     public function getWeekday($locale = null)
@@ -3947,9 +3972,9 @@ class Zend_Date extends Zend_Date_DateObject
     /**
      * Returns the calculated weekday
      *
-     * @param  $calc     string                          Type of calculation to make
-     * @param  $weekday  string|integer|array|Zend_Date  Weekday to calculate, when null the actual weekday is calculated
-     * @param  $locale   string|Zend_Locale              Locale for parsing input
+     * @param  string      $calc     Type of calculation to make
+     * @param  Zend_Date   $weekday  Weekday to calculate, when null the actual weekday is calculated
+     * @param  Zend_Locale $locale   Locale for parsing input
      * @return Zend_Date|integer
      * @throws Zend_Date_Exception
      */
@@ -4009,9 +4034,9 @@ class Zend_Date extends Zend_Date_DateObject
      * Returned is the new date object.
      * Example: setWeekday(3); will set the wednesday of this week as day.
      *
-     * @param  string|integer|array|Zend_Date  $month   Weekday to set
+     * @param  string|integer|array|Zend_Date  $weekday Weekday to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setWeekday($weekday, $locale = null)
@@ -4029,9 +4054,9 @@ class Zend_Date extends Zend_Date_DateObject
      * Example: addWeekday(3); will add the difference of days from the begining of the month until
      * wednesday.
      *
-     * @param  string|integer|array|Zend_Date  $month   Weekday to add
+     * @param  string|integer|array|Zend_Date  $weekday Weekday to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addWeekday($weekday, $locale = null)
@@ -4049,9 +4074,9 @@ class Zend_Date extends Zend_Date_DateObject
      * Example: subWeekday(3); will subtract the difference of days from the begining of the month until
      * wednesday.
      *
-     * @param  string|integer|array|Zend_Date  $month   Weekday to sub
+     * @param  string|integer|array|Zend_Date  $weekday Weekday to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subWeekday($weekday, $locale = null)
@@ -4103,7 +4128,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $day     Day of Year to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setDayOfYear($day, $locale = null)
@@ -4120,7 +4145,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $day     Day of Year to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addDayOfYear($day, $locale = null)
@@ -4137,7 +4162,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $day     Day of Year to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subDayOfYear($day, $locale = null)
@@ -4166,7 +4191,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Returns the hour as new date object
      * Example: 02.Feb.1986 10:30:25 -> 01.Jan.1970 10:00:00
      *
-     * @param $locale  string|Zend_Locale  OPTIONAL Locale for parsing input
+     * @param Zend_Locale $locale OPTIONAL Locale for parsing input
      * @return Zend_Date
      */
     public function getHour($locale = null)
@@ -4183,7 +4208,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $hour    Hour to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setHour($hour, $locale = null)
@@ -4200,7 +4225,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $hour    Hour to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addHour($hour, $locale = null)
@@ -4217,7 +4242,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $hour    Hour to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subHour($hour, $locale = null)
@@ -4269,7 +4294,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $minute  Minute to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setMinute($minute, $locale = null)
@@ -4286,7 +4311,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $minute  Minute to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addMinute($minute, $locale = null)
@@ -4303,7 +4328,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $minute  Minute to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subMinute($minute, $locale = null)
@@ -4355,7 +4380,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date $second Second to set
      * @param  string|Zend_Locale             $locale (Optional) Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setSecond($second, $locale = null)
@@ -4372,7 +4397,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date $second Second to add
      * @param  string|Zend_Locale             $locale (Optional) Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addSecond($second, $locale = null)
@@ -4389,7 +4414,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date $second Second to sub
      * @param  string|Zend_Locale             $locale (Optional) Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subSecond($second, $locale = null)
@@ -4430,7 +4455,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  integer $precision Precision for the fractional datepart 3 = milliseconds
      * @throws Zend_Date_Exception
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      */
     public function setFractionalPrecision($precision)
     {
@@ -4460,14 +4485,14 @@ class Zend_Date extends Zend_Date_DateObject
         return $this->_fractional;
     }
 
-
     /**
      * Sets new milliseconds for the date object
      * Example: setMilliSecond(550, 2) -> equals +5 Sec +50 MilliSec
      *
      * @param  integer|Zend_Date $milli     (Optional) Millisecond to set, when null the actual millisecond is set
      * @param  integer           $precision (Optional) Fraction precision of the given milliseconds
-     * @return Zend_Date Provides fluid interface
+     * @throws Zend_Date_Exception
+     * @return Zend_Date Provides a fluent interface
      */
     public function setMilliSecond($milli = null, $precision = null)
     {
@@ -4494,13 +4519,13 @@ class Zend_Date extends Zend_Date_DateObject
         return $this;
     }
 
-
     /**
      * Adds milliseconds to the date object
      *
      * @param  integer|Zend_Date $milli     (Optional) Millisecond to add, when null the actual millisecond is added
      * @param  integer           $precision (Optional) Fractional precision for the given milliseconds
-     * @return Zend_Date Provides fluid interface
+     * @throws Zend_Date_Exception
+     * @return Zend_Date Provides a fluent interface
      */
     public function addMilliSecond($milli = null, $precision = null)
     {
@@ -4513,15 +4538,24 @@ class Zend_Date extends Zend_Date_DateObject
         }
 
         if ($precision === null) {
-            $precision = strlen($milli);
-            if ($milli < 0) {
-                --$precision;
-            }
+            // Use internal default precision
+            // Is not as logic as using the length of the input. But this would break tests and maybe other things
+            // as an input value of integer 10, which is used in tests, must be parsed as 10 milliseconds (real milliseconds, precision 3)
+            // but with auto-detect of precision, 100 milliseconds would be added.
+            $precision = $this->_precision;
         }
 
         if (!is_int($precision) || $precision < 1 || $precision > 9) {
             #require_once 'Zend/Date/Exception.php';
-            throw new Zend_Date_Exception("precision ($precision) must be a positive integer less than 10", 0, null, $precision);
+            throw new Zend_Date_Exception(
+                "precision ($precision) must be a positive integer less than 10", 0, null, $precision
+            );
+        }
+
+        if ($this->_precision > $precision) {
+            $milli = $milli * pow(10, $this->_precision - $precision);
+        } elseif ($this->_precision < $precision) {
+            $milli = round($milli / pow(10, $precision - $this->_precision));
         }
 
         $this->_fractional += $milli;
@@ -4556,7 +4590,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  integer|Zend_Date $milli     (Optional) Millisecond to sub, when null the actual millisecond is subtracted
      * @param  integer           $precision (Optional) Fractional precision for the given milliseconds
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      */
     public function subMilliSecond($milli = null, $precision = null)
     {
@@ -4617,7 +4651,7 @@ class Zend_Date extends Zend_Date_DateObject
      * Returns the week as new date object using monday as begining of the week
      * Example: 12.Jan.2007 -> 08.Jan.1970 00:00:00
      *
-     * @param $locale  string|Zend_Locale  OPTIONAL Locale for parsing input
+     * @param Zend_Locale $locale OPTIONAL Locale for parsing input
      * @return Zend_Date
      */
     public function getWeek($locale = null)
@@ -4638,7 +4672,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $week    Week to set
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function setWeek($week, $locale = null)
@@ -4653,7 +4687,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $week    Week to add
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function addWeek($week, $locale = null)
@@ -4668,7 +4702,7 @@ class Zend_Date extends Zend_Date_DateObject
      *
      * @param  string|integer|array|Zend_Date  $week    Week to sub
      * @param  string|Zend_Locale              $locale  OPTIONAL Locale for parsing input
-     * @return Zend_Date Provides fluid interface
+     * @return Zend_Date Provides a fluent interface
      * @throws Zend_Date_Exception
      */
     public function subWeek($week, $locale = null)
@@ -4950,5 +4984,46 @@ class Zend_Date extends Zend_Date_DateObject
         }
 
         return $token;
+    }
+
+    /**
+     * Get unix timestamp.
+     * Added limitation: $year value must be between -10 000 and 10 000
+     * Parent method implementation causes 504 error if it gets too big(small) year value
+     *
+     * @see Zend_Date_DateObject::mktime
+     * @throws Zend_Date_Exception
+     * @param $hour
+     * @param $minute
+     * @param $second
+     * @param $month
+     * @param $day
+     * @param $year
+     * @param bool $gmt
+     * @return float|int
+     */
+    protected function mktime($hour, $minute, $second, $month, $day, $year, $gmt = false)
+    {
+        $day   = intval($day);
+        $month = intval($month);
+        $year  = intval($year);
+
+        // correct months > 12 and months < 1
+        if ($month > 12) {
+            $overlap = floor($month / 12);
+            $year   += $overlap;
+            $month  -= $overlap * 12;
+        } else {
+            $overlap = ceil((1 - $month) / 12);
+            $year   -= $overlap;
+            $month  += $overlap * 12;
+        }
+
+        if ($year > self::YEAR_MAX_VALUE || $year < self::YEAR_MIN_VALUE) {
+            throw new Zend_Date_Exception('Invalid year, it must be between ' . self::YEAR_MIN_VALUE . ' and '
+                . self::YEAR_MAX_VALUE);
+        }
+
+        return parent::mktime($hour, $minute, $second, $month, $day, $year, $gmt);
     }
 }

@@ -79,7 +79,18 @@ class Zend_Navigation_Page_Uri extends Zend_Navigation_Page
      */
     public function getHref()
     {
-        return $this->getUri();
+        $uri = $this->getUri();
+
+        $fragment = $this->getFragment();
+        if (null !== $fragment) {
+            if ('#' == substr($uri, -1)) {
+                return $uri . $fragment;
+            } else {
+                return $uri . '#' . $fragment;
+            }
+        }
+
+        return $uri;
     }
 
     // Public methods:

@@ -28,6 +28,12 @@
  */
 #require_once 'Zend/XmlRpc/Fault.php';
 
+/** @see Zend_Xml_Security */
+#require_once 'Zend/Xml/Security.php';
+
+/** @see Zend_Xml_Exception */
+#require_once 'Zend/Xml/Exception.php';
+
 /**
  * XmlRpc Request object
  *
@@ -43,7 +49,7 @@
  * @package  Zend_XmlRpc
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version $Id: Request.php 20208 2010-01-11 22:37:37Z lars $
+ * @version $Id$
  */
 class Zend_XmlRpc_Request
 {
@@ -303,15 +309,12 @@ class Zend_XmlRpc_Request
             return false;
         }
 
-        $loadEntities = libxml_disable_entity_loader(true);
         try {
-            $xml = new SimpleXMLElement($request);
-            libxml_disable_entity_loader($loadEntities);
-        } catch (Exception $e) {
+            $xml = Zend_Xml_Security::scan($request);
+        } catch (Zend_Xml_Exception $e) {
             // Not valid XML
             $this->_fault = new Zend_XmlRpc_Fault(631);
             $this->_fault->setEncoding($this->getEncoding());
-            libxml_disable_entity_loader($loadEntities);
             return false;
         }
 

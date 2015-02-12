@@ -221,6 +221,14 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
             $this->setLfiProtection($config['lfiProtectionOn']);
         }
 
+        if (array_key_exists('assign', $config)
+            && is_array($config['assign'])
+        ) {
+            foreach ($config['assign'] as $key => $value) {
+                $this->assign($key, $value);
+            }
+        }
+
         $this->init();
     }
 
@@ -948,7 +956,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
     /**
      * Finds a view script from the available directories.
      *
-     * @param $name string The base name of the script.
+     * @param string $name The base name of the script.
      * @return void
      */
     protected function _script($name)

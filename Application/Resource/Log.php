@@ -27,7 +27,7 @@
 
 
 /**
- * Resource for initializing the locale
+ * Resource for initializing logger
  *
  * @uses       Zend_Application_Resource_ResourceAbstract
  * @category   Zend
@@ -56,8 +56,8 @@ class Zend_Application_Resource_Log
 
     /**
      * Attach logger
-     * 
-     * @param  Zend_Log $log 
+     *
+     * @param  Zend_Log $log
      * @return Zend_Application_Resource_Log
      */
     public function setLog(Zend_Log $log)
@@ -66,6 +66,11 @@ class Zend_Application_Resource_Log
         return $this;
     }
 
+    /**
+     * Retrieve logger object
+     *
+     * @return Zend_Log
+     */
     public function getLog()
     {
         if (null === $this->_log) {

@@ -125,6 +125,9 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
           || $id == '4a923ef02d7f997ca14d56dfeae25ea7') {
             return serialize(array('foo', 'bar'));
         }
+        if ( $id == 'f53c7d912cc523d9a65834c8286eceb9') {
+            return serialize(array('foobar'));
+        }
         return 'foo';
     }
 
@@ -164,7 +167,7 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function save($data, $id, $tags = array(), $specificLifetime = false)
     {
         $this->_addLog('save', array($data, $id, $tags));
-        if ($id=='false') {
+        if (substr($id,-5)=='false') {
             return false;
         }
         return true;
@@ -182,7 +185,7 @@ class Zend_Cache_Backend_Test extends Zend_Cache_Backend implements Zend_Cache_B
     public function remove($id)
     {
         $this->_addLog('remove', array($id));
-        if ($id=='false') {
+        if (substr($id,-5)=='false') {
             return false;
         }
         return true;

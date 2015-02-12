@@ -627,6 +627,9 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
             $vars['action'] = $action;
         }
 
+        $replacePattern = array('/[^a-z0-9]+$/i', '/^[^a-z0-9]+/i');
+        $vars['action'] = preg_replace($replacePattern, '', $vars['action']);
+
         $inflector = $this->getInflector();
         if ($this->getNoController() || $this->getNeverController()) {
             $this->_setInflectorTarget($this->getViewScriptPathNoControllerSpec());
@@ -839,7 +842,11 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
         $request    = $this->getRequest();
         $dispatcher = $this->getFrontController()->getDispatcher();
         $module     = $dispatcher->formatModuleName($request->getModuleName());
-        $controller = $request->getControllerName();
+        $controller = substr(
+            $dispatcher->formatControllerName($request->getControllerName()),
+            0,
+            -10
+        );
         $action     = $dispatcher->formatActionName($request->getActionName());
 
         $params     = compact('module', 'controller', 'action');

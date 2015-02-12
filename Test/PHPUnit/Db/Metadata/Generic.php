@@ -26,11 +26,6 @@
 #require_once "Zend/Db/Adapter/Abstract.php";
 
 /**
- * @see PHPUnit_Extensions_Database_DB_IMetaData
- */
-#require_once "PHPUnit/Extensions/Database/DB/IMetaData.php";
-
-/**
  * Generic Metadata accessor for the Zend_Db adapters
  *
  * @uses       PHPUnit_Extensions_Database_DB_IMetaData
@@ -67,7 +62,7 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
      * Creates a new database meta data object using the given pdo connection
      * and schema name.
      *
-     * @param PDO $pdo
+     * @param Zend_Db_Adapter_Abstract $db
      * @param string $schema
      */
     public final function __construct(Zend_Db_Adapter_Abstract $db, $schema)
@@ -163,5 +158,25 @@ class Zend_Test_PHPUnit_Db_Metadata_Generic implements PHPUnit_Extensions_Databa
     public function allowsCascading()
     {
         return false;
+    }
+
+    /**
+     * Disables primary keys if rdbms does not allow setting them otherwise
+     *
+     * @param string $tableName
+     */
+    public function disablePrimaryKeys($tableName)
+    {
+        // Implemented only to match new DBUnit interface
+    }
+
+    /**
+     * Reenables primary keys after they have been disabled
+     *
+     * @param string $tableName
+     */
+    public function enablePrimaryKeys($tableName)
+    {
+        // Implemented only to match new DBUnit interface
     }
 }

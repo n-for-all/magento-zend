@@ -48,8 +48,7 @@ abstract class Zend_Application_Module_Bootstrap
     /**
      * Constructor
      *
-     * @param  Zend_Application|Zend_Application_Bootstrap_Bootstrapper $application
-     * @return void
+     * @param Zend_Application|Zend_Application_Bootstrap_Bootstrapper $application
      */
     public function __construct($application)
     {
@@ -97,9 +96,9 @@ abstract class Zend_Application_Module_Bootstrap
     /**
      * Get default application namespace
      *
-     * Proxies to {@link getModuleName()}, and returns the current module 
+     * Proxies to {@link getModuleName()}, and returns the current module
      * name
-     * 
+     *
      * @return string
      */
     public function getAppNamespace()

@@ -21,6 +21,11 @@
  */
 
 /**
+ * @see Zend_Application_Bootstrap_BootstrapAbstract
+ */
+#require_once 'Zend/Application/Bootstrap/BootstrapAbstract.php';
+
+/**
  * Concrete base class for bootstrap classes
  *
  * Registers and utilizes Zend_Controller_Front by default.
@@ -53,16 +58,19 @@ class Zend_Application_Bootstrap_Bootstrap
      * Ensure FrontController resource is registered
      *
      * @param  Zend_Application|Zend_Application_Bootstrap_Bootstrapper $application
-     * @return void
      */
     public function __construct($application)
     {
         parent::__construct($application);
 
         if ($application->hasOption('resourceloader')) {
-            $this->setOptions(array(
-                'resourceloader' => $application->getOption('resourceloader')
-            ));
+            $this->setOptions(
+                array(
+                    'resourceloader' => $application->getOption(
+                        'resourceloader'
+                    )
+                )
+            );
         }
         $this->getResourceLoader();
 
@@ -124,10 +132,14 @@ class Zend_Application_Bootstrap_Bootstrap
         ) {
             $r    = new ReflectionClass($this);
             $path = $r->getFileName();
-            $this->setResourceLoader(new Zend_Application_Module_Autoloader(array(
-                'namespace' => $namespace,
-                'basePath'  => dirname($path),
-            )));
+            $this->setResourceLoader(
+                new Zend_Application_Module_Autoloader(
+                    array(
+                        'namespace' => $namespace,
+                        'basePath'  => dirname($path),
+                    )
+                )
+            );
         }
         return $this->_resourceLoader;
     }

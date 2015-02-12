@@ -20,10 +20,6 @@
  * @version    $Id$
  */
 
-#require_once "PHPUnit/Extensions/Database/DataSet/QueryDataSet.php";
-
-#require_once "PHPUnit/Extensions/Database/DB/IDatabaseConnection.php";
-
 /**
  * @see Zend_Test_PHPUnit_Db_DataSet_DbTable
  */
@@ -52,7 +48,6 @@ class Zend_Test_PHPUnit_Db_DataSet_DbTableDataSet extends PHPUnit_Extensions_Dat
      * By default a select * will be done on the given tablename.
      *
      * @param Zend_Db_Table_Abstract $table
-     * @param string|Zend_Db_Select $query
      * @param string $where
      * @param string $order
      * @param string $count

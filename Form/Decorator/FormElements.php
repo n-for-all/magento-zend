@@ -76,14 +76,29 @@ class Zend_Form_Decorator_FormElements extends Zend_Form_Decorator_Abstract
 
         $belongsTo      = ($form instanceof Zend_Form) ? $form->getElementsBelongTo() : null;
         $elementContent = '';
+        $displayGroups  = ($form instanceof Zend_Form) ? $form->getDisplayGroups() : array();
         $separator      = $this->getSeparator();
         $translator     = $form->getTranslator();
         $items          = array();
         $view           = $form->getView();
         foreach ($form as $item) {
-            $item->setView($view)
-                 ->setTranslator($translator);
+            $item->setView($view);
+
+            // Set translator
+            if (!$item->hasTranslator()) {
+                $item->setTranslator($translator);
+            }
+
             if ($item instanceof Zend_Form_Element) {
+                foreach ($displayGroups as $group) {
+                    $elementName = $item->getName();
+                    $element     = $group->getElement($elementName);
+                    if ($element) {
+                        // Element belongs to display group; only render in that
+                        // context.
+                        continue 2;
+                    }
+                }
                 $item->setBelongsTo($belongsTo);
             } elseif (!empty($belongsTo) && ($item instanceof Zend_Form)) {
                 if ($item->isArray()) {

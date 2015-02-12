@@ -131,7 +131,7 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
      *
      * @return string
      */
-	public function getSessionClass()
+    public function getSessionClass()
     {
         return $this->_sessionClass;
     }
@@ -187,7 +187,7 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
      * Set captcha identifier
      *
      * @param string $id
-     * return Zend_Captcha_Word
+     * @return Zend_Captcha_Word
      */
     protected function _setId ($id)
     {
@@ -217,17 +217,17 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
         return $this->_timeout;
     }
 
-	/**
-	 * Sets if session should be preserved on generate()
-	 *
-	 * @param $keepSession Should session be kept on generate()?
-	 * @return Zend_Captcha_Word
-	 */
-	public function setKeepSession($keepSession)
-	{
-		$this->_keepSession = $keepSession;
-		return $this;
-	}
+    /**
+     * Sets if session should be preserved on generate()
+     *
+     * @param bool $keepSession Should session be kept on generate()?
+     * @return Zend_Captcha_Word
+     */
+    public function setKeepSession($keepSession)
+    {
+        $this->_keepSession = $keepSession;
+        return $this;
+    }
 
     /**
      * Numbers should be included in the pattern?
@@ -239,10 +239,10 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
         return $this->_useNumbers;
     }
 
-	/**
-	 * Set if numbers should be included in the pattern
-	 *
-     * @param $_useNumbers numbers should be included in the pattern?
+    /**
+     * Set if numbers should be included in the pattern
+     *
+     * @param bool $_useNumbers numbers should be included in the pattern?
      * @return Zend_Captcha_Word
      */
     public function setUseNumbers($_useNumbers)
@@ -251,7 +251,7 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
         return $this;
     }
 
-	/**
+    /**
      * Get session object
      *
      * @return Zend_Session_Namespace
@@ -366,7 +366,8 @@ abstract class Zend_Captcha_Word extends Zend_Captcha_Base
      * Validate the word
      *
      * @see    Zend_Validate_Interface::isValid()
-     * @param  mixed $value
+     * @param  mixed      $value
+     * @param  array|null $context
      * @return boolean
      */
     public function isValid($value, $context = null)

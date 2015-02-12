@@ -128,9 +128,9 @@ class Zend_Config_Json extends Zend_Config
         }
 
         // Parse/decode
-        $config = Zend_Json::decode($json);
-
-        if (null === $config) {
+        try {
+            $config = Zend_Json::decode($json);
+        } catch (Zend_Json_Exception $e) {
             // decode failed
             #require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception("Error parsing JSON data");
@@ -220,7 +220,9 @@ class Zend_Config_Json extends Zend_Config
     {
         foreach ($this->_getConstants() as $constant) {
             if (strstr($value, $constant)) {
-                $value = str_replace($constant, constant($constant), $value);
+                // handle backslashes that may represent windows path names for instance
+                $replacement = str_replace('\\', '\\\\', constant($constant));
+                $value = str_replace($constant, $replacement, $value);
             }
         }
         return $value;

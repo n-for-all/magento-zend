@@ -106,7 +106,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
      * @var array
      */
     protected static $_methodMapHeaders = array(
-    	'from' => 'setFrom',
+        'from' => 'setFrom',
         'to' => 'addTo',
         'cc' => 'addCc',
         'bcc' => 'addBcc',
@@ -148,7 +148,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
             $writer->setLayout($config);
         }
         if (isset($config['layoutFormatter'])) {
-        	$layoutFormatter = new $config['layoutFormatter'];
+            $layoutFormatter = new $config['layoutFormatter'];
             $writer->setLayoutFormatter($layoutFormatter);
         }
         if (isset($config['subjectPrependText'])) {
@@ -185,6 +185,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
      *
      * @param array $config
      * @return Zend_Mail
+     * @throws Zend_Log_Exception
      */
     protected static function _constructMailFromConfig(array $config)
     {
@@ -213,8 +214,8 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
                     && !is_numeric($address['name'])
                 ) {
                     $params = array(
-                    	$address['email'],
-                    	$address['name']
+                        $address['email'],
+                        $address['name']
                     );
                 } else if (is_array($address) && isset($address['email'])) {
                     $params = array($address['email']);
@@ -233,6 +234,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
      *
      * @param array $config
      * @return Zend_Layout
+     * @throws Zend_Log_Exception
      */
     protected function _constructLayoutFromConfig(array $config)
     {
@@ -331,6 +333,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
      *
      * @param  string $subject Subject prepend text.
      * @return Zend_Log_Writer_Mail
+     * @throws Zend_Log_Exception
      */
     public function setSubjectPrependText($subject)
     {

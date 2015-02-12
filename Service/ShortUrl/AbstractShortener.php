@@ -16,7 +16,7 @@
  * @package    Zend_Service_ShortUrl
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: $
  */
 
 /**
@@ -36,7 +36,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Service_ShortUrl_AbstractShortener
-    extends Zend_Service_Abstract 
+    extends Zend_Service_Abstract
     implements Zend_Service_ShortUrl_Shortener
 {
     /**
@@ -46,7 +46,7 @@ abstract class Zend_Service_ShortUrl_AbstractShortener
      */
     protected $_baseUri = null;
 
-    
+
     /**
      * Checks whether URL to be shortened is valid
      *
@@ -63,7 +63,7 @@ abstract class Zend_Service_ShortUrl_AbstractShortener
             ));
         }
     }
-    
+
     /**
      * Verifies that the URL has been shortened by this service
      *
