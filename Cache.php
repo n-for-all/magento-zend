@@ -130,7 +130,7 @@ abstract class Zend_Cache
             // we use a standard backend
             $backendClass = 'Zend_Cache_Backend_' . $backend;
             // security controls are explicit
-            #require_once str_replace('_', DIRECTORY_SEPARATOR, $backendClass) . '.php';
+            require_once str_replace('_', DIRECTORY_SEPARATOR, $backendClass) . '.php';
         } else {
             // we use a custom backend
             if (!preg_match('~^[\w\\\\]+$~D', $backend)) {
@@ -147,7 +147,7 @@ abstract class Zend_Cache
                 if (!(self::_isReadable($file))) {
                     self::throwException("file $file not found in include_path");
                 }
-                #require_once $file;
+                require_once $file;
             }
         }
         return new $backendClass($backendOptions);
@@ -172,7 +172,7 @@ abstract class Zend_Cache
             // For perfs reasons, with frontend == 'Core', we can interact with the Core itself
             $frontendClass = 'Zend_Cache_' . ($frontend != 'Core' ? 'Frontend_' : '') . $frontend;
             // security controls are explicit
-            #require_once str_replace('_', DIRECTORY_SEPARATOR, $frontendClass) . '.php';
+            require_once str_replace('_', DIRECTORY_SEPARATOR, $frontendClass) . '.php';
         } else {
             // we use a custom frontend
             if (!preg_match('~^[\w\\\\]+$~D', $frontend)) {
@@ -189,7 +189,7 @@ abstract class Zend_Cache
                 if (!(self::_isReadable($file))) {
                     self::throwException("file $file not found in include_path");
                 }
-                #require_once $file;
+                require_once $file;
             }
         }
         return new $frontendClass($frontendOptions);

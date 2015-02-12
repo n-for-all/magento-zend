@@ -271,7 +271,7 @@ class Zend_Service_Rackspace_Files extends Zend_Service_Rackspace_Abstract
                 $headers= $result->getHeaders();
                 $count= strlen(self::METADATA_CONTAINER_HEADER);
                 // Zend_Http_Response alters header name in array key, so match our header to what will be in the headers array
-                $headerName = ucwords(strtolower(self::METADATA_CONTAINER_HEADER));
+                $headerName = ucwords(strtolower(self::METADATA_CONTAINER_HEADER)); 
                 $metadata= array();
                 foreach ($headers as $type => $value) {
                     if (strpos($type,$headerName)!==false) {
@@ -517,7 +517,7 @@ class Zend_Service_Rackspace_Files extends Zend_Service_Rackspace_Abstract
                 $headers= $result->getHeaders();
                 $count= strlen(self::METADATA_OBJECT_HEADER);
                 // Zend_Http_Response alters header name in array key, so match our header to what will be in the headers array
-                $headerName = ucwords(strtolower(self::METADATA_OBJECT_HEADER));
+                $headerName = ucwords(strtolower(self::METADATA_OBJECT_HEADER)); 
                 $metadata= array();
                 foreach ($headers as $type => $value) {
                     if (strpos($type,$headerName)!==false) {

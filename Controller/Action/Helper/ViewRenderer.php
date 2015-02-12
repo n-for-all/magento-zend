@@ -626,7 +626,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
         } elseif (null !== $action) {
             $vars['action'] = $action;
         }
-
+        
         $replacePattern = array('/[^a-z0-9]+$/i', '/^[^a-z0-9]+/i');
         $vars['action'] = preg_replace($replacePattern, '', $vars['action']);
 
@@ -842,11 +842,12 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
         $request    = $this->getRequest();
         $dispatcher = $this->getFrontController()->getDispatcher();
         $module     = $dispatcher->formatModuleName($request->getModuleName());
-        $controller = substr(
-            $dispatcher->formatControllerName($request->getControllerName()),
-            0,
-            -10
+        $controller = $dispatcher->formatControllerName(
+            $request->getControllerName()
         );
+        if ('Controller' == substr($controller, -10)) {
+            $controller = substr($controller, 0, -10);
+        }
         $action     = $dispatcher->formatActionName($request->getActionName());
 
         $params     = compact('module', 'controller', 'action');

@@ -63,7 +63,7 @@ class Zend_Http_UserAgent_Features_Adapter_TeraWurfl implements Zend_Http_UserAg
             }
 
             // Include the Tera-WURFL file
-            #require_once ($config['terawurfl_lib_dir'] . '/TeraWurfl.php');
+            require_once ($config['terawurfl_lib_dir'] . '/TeraWurfl.php');
         }
 
 
