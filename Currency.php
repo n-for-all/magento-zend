@@ -202,9 +202,9 @@ class Zend_Currency
             }
 
             if ($options['position'] == self::LEFT) {
-                $value = '¤' . $space . $value;
+                $value = '<span>¤</span>' . $value;
             } else {
-                $value = $value . $space . '¤';
+                $value = $value . '<span>¤</span>';
             }
         }
 
